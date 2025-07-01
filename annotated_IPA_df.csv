@@ -1,0 +1,12 @@
+feature_id,ids,relative_id,mz,rt,intensity,relationship,charge,adduct,compound_name,formula
+1,4,0,166.0860469,143.3213962,1039192309.0899999,bp,1,[M+39K]+,pyridoxamine,C8H12N2O2
+2,78,0,167.0891418,143.2932786,100888152.535,bp|isotope,1,[M+39K]+ 13C M+1,pyridoxamine,C8H12N2O2
+3,999,0,331.1649213,143.2538931,9095252.6406,potential bp,1,[M+H]+,pyridoxamine,C8H12N2O2
+4,4377,0,332.1685031,143.2804967,1824716.03204,bp|isotope,1,[M+H]+ 13C M+1,pyridoxamine,C8H12N2O2
+5,4398,0,188.0677845,143.21329,1724267.88589,potential bp,1,[M+H+PotassiumFormate]+,pyridoxamine,C8H12N2O2
+6,2582,0,168.0925106,143.1810971,3398258.6618,bp|isotope,1,[M+H+PotassiumFormate]+ 13C M+1,pyridoxamine,C8H12N2O2
+7,6,1,130.0497274,65.77235475,724713782.65,bp,1,[M+39K]+,L-asparagine,C4H8N2O3
+8,33,1,259.0923178,65.6674287,230896298.55,potential bp,1,[M+39K]+,N-carbamoyl-beta-alanine,C4H8N2O3
+9,247,1,131.0528786,65.7933134,36545910.644999996,bp|isotope,1,[M+39K]+ 13C M+1,L-asparagine,C4H8N2O3
+10,356,1,260.0955372,65.66021465,22176974.5264,bp|isotope,1,[M+39K]+ 13C M+1,N-carbamoyl-beta-alanine,C4H8N2O3
+11,2849,1,261.0966051,65.6782499,3082660.9046,potential bp,1,[M+H]+,L-asparagine,C4H8N2O3
