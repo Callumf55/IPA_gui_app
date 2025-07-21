@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, QFormLayout,
     QComboBox, QTextEdit, QDoubleSpinBox, QGroupBox, QSizePolicy, QSpinBox, QCheckBox
 )
-from ipa_run_pipeline_4 import run_ipa_pipeline
+from ipa_run_pipeline import run_ipa_pipeline
 
 class IPAGUI(QMainWindow):
     def __init__(self):
