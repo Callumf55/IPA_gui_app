@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QThread, Signal, QObject
 
-from ipa_run_pipeline_5 import run_ipa_pipeline
+from ipa_run_pipeline_V2 import run_ipa_pipeline
 
 
 # --- Redirect print() and logging to GUI console ---
