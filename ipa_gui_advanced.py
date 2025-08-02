@@ -66,19 +66,67 @@ class IPAGUI(QMainWindow):
 
         # Inputs
         self.ms1_input = QLineEdit()
-        form_layout.addRow("MS1 Input File:", browse_row(self.ms1_input))
+        def help_link(url):
+            label = QLabel(f'<a href="{url}" title="View documentation" style="text-decoration: none;">?</a>')
+            label.setOpenExternalLinks(True)
+            return label
+
+        # Updated MS1 row with help link
+        ms1_row = QWidget()
+        ms1_layout = QHBoxLayout(ms1_row)
+        ms1_layout.setContentsMargins(0, 0, 0, 0)
+        ms1_layout.addWidget(self.ms1_input, 1)
+        ms1_layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#1-ms1-data"))
+        ms1_layout.addWidget(QPushButton("Browse", clicked=lambda: self.browse(self.ms1_input)))
+        form_layout.addRow("MS1 Input File:", ms1_row)
 
         self.adducts_input = QLineEdit()
         form_layout.addRow("Adducts File:", browse_row(self.adducts_input))
 
         self.db_ms1_input = QLineEdit()
-        form_layout.addRow("MS1 Database File:", browse_row(self.db_ms1_input))
+        def help_link(url):
+            label = QLabel(f'<a href="{url}" title="View documentation" style="text-decoration: none;">?</a>')
+            label.setOpenExternalLinks(True)
+            return label
+
+        # Updated db_MS1 row with help link
+        db_ms1_row = QWidget()
+        db_ms1_layout = QHBoxLayout(db_ms1_row)
+        db_ms1_layout.setContentsMargins(0, 0, 0, 0)
+        db_ms1_layout.addWidget(self.db_ms1_input, 1)
+        db_ms1_layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#2-ms1-database-file-required"))
+        db_ms1_layout.addWidget(QPushButton("Browse", clicked=lambda: self.browse(self.db_ms1_input)))
+        form_layout.addRow("MS1 Database Input File:", db_ms1_row)
 
         self.ms2_input = QLineEdit()
-        form_layout.addRow("MS2 Input File (optional):", browse_row(self.ms2_input))
+        def help_link(url):
+            label = QLabel(f'<a href="{url}" title="View documentation" style="text-decoration: none;">?</a>')
+            label.setOpenExternalLinks(True)
+            return label
+
+        # Updated MS2 row with help link
+        ms2_row = QWidget()
+        ms2_layout = QHBoxLayout(ms2_row)
+        ms2_layout.setContentsMargins(0, 0, 0, 0)
+        ms2_layout.addWidget(self.ms2_input, 1)
+        ms2_layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#2-ms2-data"))
+        ms2_layout.addWidget(QPushButton("Browse", clicked=lambda: self.browse(self.ms2_input)))
+        form_layout.addRow("MS2 Input File:", ms2_row)
 
         self.db_ms2_input = QLineEdit()
-        form_layout.addRow("MS2 Database File (optional):", browse_row(self.db_ms2_input))
+        def help_link(url):
+            label = QLabel(f'<a href="{url}" title="View documentation" style="text-decoration: none;">?</a>')
+            label.setOpenExternalLinks(True)
+            return label
+
+        # Updated db_ms2 row with help link
+        db_ms2_row = QWidget()
+        db_ms2_layout = QHBoxLayout(db_ms2_row)
+        db_ms2_layout.setContentsMargins(0, 0, 0, 0)
+        db_ms2_layout.addWidget(self.db_ms2_input, 1)
+        db_ms2_layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#3-ms2-database-file-only-required-if-ms2-data-is-available"))
+        db_ms2_layout.addWidget(QPushButton("Browse", clicked=lambda: self.browse(self.db_ms2_input)))
+        form_layout.addRow("MS2 Database Input File:", db_ms2_row)
 
         self.bio_input = QLineEdit()
         form_layout.addRow("Biological Network File (optional):", browse_row(self.bio_input))
@@ -93,16 +141,55 @@ class IPAGUI(QMainWindow):
         self.ppm_spin = QSpinBox()
         self.ppm_spin.setRange(1, 1000)
         self.ppm_spin.setValue(5)
-        form_layout.addRow("PPM:", self.ppm_spin)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.ppm_spin)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ppm"))
+        form_layout.addRow("PPM:", row)
+
 
         self.iter_spin = QSpinBox()
         self.iter_spin.setRange(1, 10000)
         self.iter_spin.setValue(100)
-        form_layout.addRow("Gibbs Sampler Iterations:", self.iter_spin)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.iter_spin)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#gibbs-sampler-iterations"))
+        form_layout.addRow("Gibbs Sampler Iterations:", row)
+
 
         self.gibbs_selector = QComboBox()
         self.gibbs_selector.addItems(["adduct", "biochemical", "biochemical and adduct"])
-        form_layout.addRow("Gibbs Sampler Type:", self.gibbs_selector)
+
+        # Help label for Gibbs Sampler
+        self.gibbs_help_link = QLabel()
+        self.gibbs_help_link.setOpenExternalLinks(True)
+
+        # Function to update help link based on selected Gibbs sampler
+        def update_gibbs_help(index):
+            mapping = {
+                "adduct": "https://github.com/Callumf55/IPA_GUI/blob/main/README.md#5-computing-posterior-probabilities-integrating-adducts-connections",
+                "biochemical": "https://github.com/Callumf55/IPA_GUI/blob/main/README.md#6-computing-posterior-probabilities-integrating-biochemical-connections",
+                "biochemical and adduct": "https://github.com/Callumf55/IPA_GUI/blob/main/README.md#7-computing-posterior-probabilities-integrating-both-adducts-and-biochemical-connections"
+            }
+            current = self.gibbs_selector.currentText()
+            url = mapping.get(current, "#")
+            self.gibbs_help_link.setText(f'<a href="{url}" title="View documentation" style="text-decoration: none;">?</a>')
+
+        # Update once at startup and connect to selection change
+        update_gibbs_help(0)
+        self.gibbs_selector.currentIndexChanged.connect(update_gibbs_help)
+
+        # Add selector + help link to row
+        gibbs_row = QWidget()
+        gibbs_layout = QHBoxLayout(gibbs_row)
+        gibbs_layout.setContentsMargins(0, 0, 0, 0)
+        gibbs_layout.addWidget(self.gibbs_selector)
+        gibbs_layout.addWidget(self.gibbs_help_link)
+        form_layout.addRow("Gibbs Sampler Type:", gibbs_row)
+
 
         self.run_clustering_checkbox = QCheckBox("Run Clustering")
         self.run_clustering_checkbox.setChecked(True)
@@ -153,43 +240,177 @@ class IPAGUI(QMainWindow):
         self.RTwin = floatbox(1.0)
         self.Intmode = QComboBox()
         self.Intmode.addItems(["max", "ave"])
-        advanced_form.addRow("Clustering Cthr:", self.Cthr)
-        advanced_form.addRow("Clustering RTwin:", self.RTwin)
-        advanced_form.addRow("Clustering Intmode:", self.Intmode)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.Cthr)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#clustering-cthr"))
+        advanced_form.addRow("Clustering Cthr:", row)
+
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.RTwin)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#clustering-rtwin"))
+        advanced_form.addRow("Clustering RTwin:", row)
+
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.Intmode)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#clustering-intmode"))
+        advanced_form.addRow("Clustering Intmode:", row)
 
         # Isotope
         self.isoDiff = floatbox(1.0)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.isoDiff)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#isotope-mass-diff"))
+        advanced_form.addRow("Isotope Mass Diff:", row)
+
         self.MinIsoRatio = floatbox(0.5)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.MinIsoRatio)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#min-isotope-ratio"))
+        advanced_form.addRow("Min Isotope Ratio:", row)
+
         self.isotope_ppm = intbox(100)
-        advanced_form.addRow("Isotope Mass Diff:", self.isoDiff)
-        advanced_form.addRow("Min Isotope Ratio:", self.MinIsoRatio)
-        advanced_form.addRow("Isotope ppm:", self.isotope_ppm)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.isotope_ppm)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#isotope-ppm"))
+        advanced_form.addRow("Isotope ppm:", row)
+
 
         # Annotation
         self.me = floatbox(5.48579909065e-04)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.me)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#electron-mass-me"))
+        advanced_form.addRow("Electron Mass (me):", row)
+
         self.ratiosd = floatbox(0.9)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.ratiosd)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#intensity-ratio-sd"))
+        advanced_form.addRow("Intensity Ratio SD:", row)
+
         self.ppmunk = intbox(10)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.ppmunk)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ppmunk"))
+        advanced_form.addRow("ppmunk:", row)
+
         self.ratiounk = floatbox(0.7)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.ratiounk)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ratiounk"))
+        advanced_form.addRow("ratiounk:", row)
+
         self.ppmthr = intbox(10)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.ppmthr)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ppmthr"))
+        advanced_form.addRow("ppmthr:", row)
+
         self.pRTNone = floatbox(0.1)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.pRTNone)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#prtnone"))
+        advanced_form.addRow("pRTNone:", row)
+
         self.pRTout = floatbox(0.1)
-        advanced_form.addRow("Electron Mass (me):", self.me)
-        advanced_form.addRow("Intensity Ratio SD:", self.ratiosd)
-        advanced_form.addRow("ppmunk:", self.ppmunk)
-        advanced_form.addRow("ratiounk:", self.ratiounk)
-        advanced_form.addRow("ppmthr:", self.ppmthr)
-        advanced_form.addRow("pRTNone:", self.pRTNone)
-        advanced_form.addRow("pRTout:", self.pRTout)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.pRTout)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#prtout"))
+        advanced_form.addRow("pRTout:", row)
+
+
+        # MSMS Annotation Settings
+        self.mzdCS = floatbox(0.0)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.mzdCS)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#mzdcs"))
+        advanced_form.addRow("mzdCS:", row)
+
+        self.ppmCS = intbox(10)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.ppmCS)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ppmcs"))
+        advanced_form.addRow("ppmCS:", row)
+
+        self.CSunk = floatbox(0.7)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.CSunk)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#csunk"))
+        advanced_form.addRow("CSunk:", row)
+
+        self.evfilt = QCheckBox()
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.evfilt)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#evfilt"))
+        advanced_form.addRow("evfilt:", row)
+
 
         # Gibbs
         self.burn = intbox(10)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.burn)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#burn-in-iterations"))
+        advanced_form.addRow("Burn-in Iterations:", row)
+
         self.delta_add = floatbox(1.0)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.delta_add)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#delta-adduct"))
+        advanced_form.addRow("Delta (Adduct):", row)
+
         self.delta_bio = floatbox(1.0)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.delta_bio)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#delta-bio"))
+        advanced_form.addRow("Delta (Bio):", row)
+
         self.all_out = QCheckBox()
-        advanced_form.addRow("Burn-in Iterations:", self.burn)
-        advanced_form.addRow("Delta (Adduct):", self.delta_add)
-        advanced_form.addRow("Delta (Bio):", self.delta_bio)
-        advanced_form.addRow("Return All Iterations:", self.all_out)
+        row = QWidget()
+        layout = QHBoxLayout(row)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.all_out)
+        layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#all-out"))
+        advanced_form.addRow("Return All Iterations:", row)
 
         self.advanced_group.setLayout(advanced_form)
 
@@ -278,6 +499,10 @@ class IPAGUI(QMainWindow):
                 "ppmthr": self.ppmthr.value(),
                 "pRTNone": self.pRTNone.value(),
                 "pRTout": self.pRTout.value(),
+                "mzdCS": self.mzdCS.value(),
+                "ppmCS": self.ppmCS.value(),
+                "CSunk": self.CSunk.value(),
+                "evfilt": self.evfilt.isChecked(),
                 "burn": self.burn.value(),
                 "delta_add": self.delta_add.value(),
                 "delta_bio": self.delta_bio.value(),
