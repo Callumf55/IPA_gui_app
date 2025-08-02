@@ -93,7 +93,7 @@ You can enable the advanced controls via the "Enable Advanced Settings" checkbox
 - [Delta (Bio)](https://github.com/Callumf55/IPA_GUI/blob/main/README.md#delta-bio)
 - [All Out](https://github.com/Callumf55/IPA_GUI/blob/main/README.md#all-out)
 
-## 📤 Outputs
+## Outputs
 
 | File                         | Description                                   |
 |------------------------------|-----------------------------------------------|
@@ -103,7 +103,7 @@ You can enable the advanced controls via the "Enable Advanced Settings" checkbox
 
 You can select export format as CSV, TSV, or XLSX.
 
-## 👩‍💻 Developer Notes
+## Developer Notes
 
 - Main GUI file: `ipa_gui_advanced.py`
 - Pipeline logic: `ipa_run_pipeline_ad.py`
