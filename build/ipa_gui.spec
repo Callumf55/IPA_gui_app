@@ -2,15 +2,18 @@
 import os
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-ROOT  = os.path.abspath(os.getcwd())              # repo root
-ENTRY = os.path.join(ROOT, 'ipa_gui_advanced.py') # entry script (absolute)
-ICON  = os.path.join(ROOT, 'resources', 'icon.ico')  # icon in repo root (absolute)
+# Always resolve paths from repo root
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ENTRY = os.path.join(ROOT, "ipa_gui_advanced.py")
+ICON = os.path.join(ROOT, "resources", "icon.ico")
 
-hidden = collect_submodules('pandas') + collect_submodules('PySide6')
-datas  = collect_data_files('PySide6', includes=['Qt/plugins/platforms/*', 'Qt/translations/*'])
-# bundling the icon as data is optional; safe to include if present
+# Collect hidden imports and Qt plugin data
+hidden = collect_submodules("pandas") + collect_submodules("PySide6")
+datas = collect_data_files("PySide6", includes=["Qt/plugins/platforms/*", "Qt/translations/*"])
+
+# Add the icon file to bundled data if it exists
 if os.path.exists(ICON):
-    datas += [(ICON, 'resources')]
+    datas.append((ICON, "resources"))
 
 a = Analysis(
     [ENTRY],
@@ -21,7 +24,7 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['pytest', '_pytest'],
+    excludes=["pytest", "_pytest"],
     noarchive=False,
 )
 
@@ -29,13 +32,22 @@ pyz = PYZ(a.pure, a.zipped_data)
 
 exe = EXE(
     pyz,
-    a.scripts, a.binaries, a.zipfiles, a.datas,
-    name='IPA Pipeline GUI',
-    icon=ICON if os.path.exists(ICON) else None,  # use absolute icon; skip if missing
+    a.scripts,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    name="IPA Pipeline GUI",
+    icon=ICON if os.path.exists(ICON) else None,
     console=False,
 )
 
 coll = COLLECT(
-    exe, a.binaries, a.zipfiles, a.datas,
-    strip=False, upx=False, name='IPA Pipeline GUI'
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=False,
+    name="IPA Pipeline GUI"
 )
+
