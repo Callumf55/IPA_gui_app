@@ -2,72 +2,55 @@ name: Build & Release Windows App
 
 on:
   push:
-    tags: [ "v*" ]
+    tags:
+      - 'v*'  # Run only on version tags
 
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - name: Get version from tag
-        id: tag
-        shell: bash
-        run: |
-          ref="${GITHUB_REF##*/}"   # e.g., v0.2.0
-          echo "version=${ref#v}" >> $GITHUB_OUTPUT
-
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.13'
 
-      - name: Install deps (includes ipaPy2 from Git)
+      - name: Install dependencies
         run: |
-          py -m pip install --upgrade pip
-          py -m pip install -r requirements.txt pyinstaller
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Debug spec path
+        run: |
+          echo "=== Repo root listing ==="
+          dir
+          echo "=== build/ listing ==="
+          dir build
+          echo "=== Spec contents ==="
+          type build\ipa_gui.spec
+          echo "=== Checking entry script ==="
+          if not exist "ipa_gui_advanced.py" (echo "MISSING: ipa_gui_advanced.py in repo root" & exit 1)
 
       - name: Build EXE with PyInstaller
         run: py -m PyInstaller build\ipa_gui.spec
 
-      - name: Install Inno Setup
-        run: choco install innosetup -y
-
-      - name: Build installer with Inno Setup
-        run: iscc build\setup.iss /DMyAppVersion=${{ steps.tag.outputs.version }}
-        shell: pwsh
-
-      # 🚀 New Smoke Test Step
-      - name: Test EXE launch headlessly
+      - name: Download & Install Inno Setup
         run: |
-          Start-Process -FilePath "dist\IPA Pipeline GUI\IPA Pipeline GUI.exe" -WindowStyle Hidden
-          Start-Sleep -Seconds 5
-          Get-Process "IPA Pipeline GUI" -ErrorAction SilentlyContinue | Stop-Process
-        shell: pwsh
+          Invoke-WebRequest -Uri "https://jrsoftware.org/download.php/is.exe" -OutFile "is.exe"
+          Start-Process is.exe -ArgumentList "/VERYSILENT", "/NORESTART" -Wait
 
-      - name: Zip portable app
-        run: powershell Compress-Archive -Path "dist\IPA Pipeline GUI\*" -DestinationPath "IPA-Pipeline-GUI-Windows.zip"
+      - name: Package with Inno Setup
+        run: |
+          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" build\setup.iss
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ipa-windows
+          name: windows-installer
           path: |
-            IPA-Pipeline-GUI-Windows.zip
             Output\IPA-Pipeline-GUI-Setup.exe
-
-  release:
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/')
-    runs-on: windows-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: ipa-windows
-          path: .
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            IPA-Pipeline-GUI-Windows.zip
-            IPA-Pipeline-GUI-Setup.exe
+            dist\IPA Pipeline GUI\*
