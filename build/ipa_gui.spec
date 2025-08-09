@@ -1,5 +1,3 @@
-# build/ipa_gui.spec
-# Build locally with: py -m PyInstaller build\ipa_gui.spec
 import os
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
@@ -9,11 +7,11 @@ ICON  = os.path.join(ROOT, 'resources', 'icon.ico')
 
 hidden = collect_submodules('pandas') + collect_submodules('PySide6')
 datas = collect_data_files('PySide6', includes=['Qt/plugins/platforms/*', 'Qt/translations/*'])
-datas += [(ICON, 'resources')]  # optional icon
+datas += [(ICON, 'resources')]
 
 a = Analysis(
-    [ENTRY],                 # ← absolute path to entry script
-    pathex=[ROOT],           # ← add repo root to sys.path for imports
+    [ENTRY],       # ✅ absolute path to ipa_gui_advanced.py
+    pathex=[ROOT], # ✅ make repo root available for imports
     binaries=[],
     datas=datas,
     hiddenimports=hidden,
@@ -27,7 +25,7 @@ pyz = PYZ(a.pure, a.zipped_data)
 exe = EXE(
     pyz, a.scripts, a.binaries, a.zipfiles, a.datas,
     name='IPA Pipeline GUI',
-    icon=ICON,               # ← absolute icon path
+    icon=ICON,
     console=False,
 )
 coll = COLLECT(
