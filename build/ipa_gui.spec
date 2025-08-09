@@ -1,31 +1,34 @@
+# build/ipa_gui.spec
+# Build locally with: py -m PyInstaller build\ipa_gui.spec
 import os
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT  = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 ENTRY = os.path.join(ROOT, 'ipa_gui_advanced.py')
 ICON  = os.path.join(ROOT, 'resources', 'icon.ico')
 
 hidden = collect_submodules('pandas') + collect_submodules('PySide6')
 datas = collect_data_files('PySide6', includes=['Qt/plugins/platforms/*', 'Qt/translations/*'])
-datas += [(ICON, 'resources')]
+if os.path.exists(ICON):
+    datas += [(ICON, 'resources')]
 
 a = Analysis(
-    [ENTRY],       # ✅ absolute path to ipa_gui_advanced.py
-    pathex=[ROOT], # ✅ make repo root available for imports
+    [ENTRY],               # ← absolute path to your entry script
+    pathex=[ROOT],         # ← add repo root to sys.path
     binaries=[],
     datas=datas,
     hiddenimports=hidden,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['pytest'],   # avoid hook-pytest issues on Python 3.13
     noarchive=False,
 )
 pyz = PYZ(a.pure, a.zipped_data)
 exe = EXE(
     pyz, a.scripts, a.binaries, a.zipfiles, a.datas,
     name='IPA Pipeline GUI',
-    icon=ICON,
+    icon=ICON if os.path.exists(ICON) else None,
     console=False,
 )
 coll = COLLECT(
