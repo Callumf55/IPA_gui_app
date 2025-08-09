@@ -1,0 +1,65 @@
+name: Build & Release Windows App
+
+on:
+  push:
+    tags: [ "v*" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: tag
+        shell: bash
+        run: |
+          ref="${GITHUB_REF##*/}"   # e.g., v0.2.0
+          echo "version=${ref#v}" >> $GITHUB_OUTPUT
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps (includes ipaPy2 from Git)
+        run: |
+          py -m pip install --upgrade pip
+          py -m pip install -r requirements.txt pyinstaller
+
+      - name: Build EXE with PyInstaller
+        run: py -m PyInstaller build\ipa_gui.spec
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y
+
+      - name: Build installer with Inno Setup
+        run: iscc build\setup.iss /DMyAppVersion=${{ steps.tag.outputs.version }}
+        shell: pwsh
+
+      - name: Zip portable app
+        run: powershell Compress-Archive -Path "dist\IPA Pipeline GUI\*" -DestinationPath "IPA-Pipeline-GUI-Windows.zip"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa-windows
+          path: |
+            IPA-Pipeline-GUI-Windows.zip
+            Output\IPA-Pipeline-GUI-Setup.exe
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ipa-windows
+          path: .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            IPA-Pipeline-GUI-Windows.zip
+            IPA-Pipeline-GUI-Setup.exe
