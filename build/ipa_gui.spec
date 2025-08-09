@@ -5,7 +5,7 @@ from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
 # --- Paths ---
 ROOT  = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-ENTRY = os.path.join(ROOT, 'ipa_gui_advanced.py')          # ✅ absolute path
+ENTRY = os.path.join(ROOT, 'ipa_gui_advanced.py')          
 ICON  = os.path.join(ROOT, 'resources', 'icon.ico')
 
 # --- Hidden imports & data ---
@@ -16,8 +16,8 @@ if os.path.exists(ICON):
 
 # --- Analysis ---
 a = Analysis(
-    [ENTRY],                 # ✅ absolute path
-    pathex=[ROOT],           # ✅ repo root in sys.path
+    [ENTRY],                 
+    pathex=[ROOT],           
     binaries=[],
     datas=datas,
     hiddenimports=hidden,
@@ -42,3 +42,4 @@ coll = COLLECT(
     exe, a.binaries, a.zipfiles, a.datas,
     strip=False, upx=False, name='IPA Pipeline GUI'
 )
+
