@@ -1,6 +1,10 @@
 # Core dependencies
 pandas>=1.3.0
 PySide6>=6.0
+git+https://github.com/francescodc87/ipaPy2.git
+
 
 # Optional: Required if you export results as .xlsx
 openpyxl>=3.0.0
+
+
