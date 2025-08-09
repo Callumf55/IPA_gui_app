@@ -1,17 +1,19 @@
 # build/ipa_gui.spec
-# Build locally with:  py -m PyInstaller build\ipa_gui.spec
 import os
 from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
-# Use CWD instead of __file__ (PyInstaller doesn't define __file__ for spec)
+# Build is invoked from repo root; keep entry absolute so it's unambiguous
 ROOT  = os.path.abspath(os.getcwd())
 ENTRY = os.path.join(ROOT, 'ipa_gui_advanced.py')
-ICON  = os.path.join(ROOT, 'resources', 'icon.ico')
+
+# Icon path is now RELATIVE TO THE SPEC DIRECTORY (we will copy it there in CI)
+ICON_REL = os.path.join('resources', 'icon.ico')
 
 hidden = collect_submodules('pandas') + collect_submodules('PySide6')
 datas  = collect_data_files('PySide6', includes=['Qt/plugins/platforms/*', 'Qt/translations/*'])
-if os.path.exists(ICON):
-    datas += [(ICON, 'resources')]
+# also bundle the icon so it’s available at runtime if you need it
+if os.path.exists(os.path.join('build', ICON_REL)):
+    datas += [(os.path.join('build', ICON_REL), 'resources')]
 
 a = Analysis(
     [ENTRY],
@@ -22,7 +24,7 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['pytest', '_pytest'],  # avoid pytest hook on Py 3.13
+    excludes=['pytest', '_pytest'],
     noarchive=False,
 )
 
@@ -32,7 +34,7 @@ exe = EXE(
     pyz,
     a.scripts, a.binaries, a.zipfiles, a.datas,
     name='IPA Pipeline GUI',
-    icon=ICON if os.path.exists(ICON) else None,
+    icon=ICON_REL if os.path.exists(ICON_REL) else None,  # resolved from spec dir
     console=False,
 )
 
