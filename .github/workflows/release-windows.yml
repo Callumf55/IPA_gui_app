@@ -36,6 +36,14 @@ jobs:
         run: iscc build\setup.iss /DMyAppVersion=${{ steps.tag.outputs.version }}
         shell: pwsh
 
+      # 🚀 New Smoke Test Step
+      - name: Test EXE launch headlessly
+        run: |
+          Start-Process -FilePath "dist\IPA Pipeline GUI\IPA Pipeline GUI.exe" -WindowStyle Hidden
+          Start-Sleep -Seconds 5
+          Get-Process "IPA Pipeline GUI" -ErrorAction SilentlyContinue | Stop-Process
+        shell: pwsh
+
       - name: Zip portable app
         run: powershell Compress-Archive -Path "dist\IPA Pipeline GUI\*" -DestinationPath "IPA-Pipeline-GUI-Windows.zip"
 
