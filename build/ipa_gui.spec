@@ -30,7 +30,7 @@ pyz = PYZ(a.pure, a.zipped_data)
 exe = EXE(
     pyz,
     a.scripts, a.binaries, a.zipfiles, a.datas,
-    name='IPA Pipeline GUI',
+    name='IPA_Pipeline_GUI',
     icon=ICON if os.path.exists(ICON) else None,  # use absolute icon; skip if missing
     console=False,
 )
@@ -39,4 +39,5 @@ coll = COLLECT(
     exe, a.binaries, a.zipfiles, a.datas,
     strip=False, upx=False, name='IPA Pipeline GUI'
 )
+
 
