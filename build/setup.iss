@@ -11,7 +11,7 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=IPA-Pipeline-GUI-Setup
+OutputBaseFilename=IPA_Pipeline_GUI_Setup
 ArchitecturesInstallIn64BitMode=x64
 UninstallDisplayIcon={app}\{#MyAppExe}
 
@@ -24,4 +24,3 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExe}"
 
 [Run]
 Filename: "{app}\{#MyAppExe}"; Description: "Launch {#MyAppName}"; Flags: nowait postinstall skipifsilent
-
