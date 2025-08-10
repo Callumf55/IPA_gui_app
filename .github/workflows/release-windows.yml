@@ -39,13 +39,13 @@ jobs:
       # 🚀 New Smoke Test Step
       - name: Test EXE launch headlessly
         run: |
-          Start-Process -FilePath "dist\IPA Pipeline GUI\IPA Pipeline GUI.exe" -WindowStyle Hidden
+          Start-Process -FilePath "dist\IPA_Pipeline_GUI\IPA_Pipeline_GUI.exe" -WindowStyle Hidden
           Start-Sleep -Seconds 5
-          Get-Process "IPA Pipeline GUI" -ErrorAction SilentlyContinue | Stop-Process
+          Get-Process "IPA_Pipeline_GUI" -ErrorAction SilentlyContinue | Stop-Process
         shell: pwsh
 
       - name: Zip portable app
-        run: powershell Compress-Archive -Path "dist\IPA Pipeline GUI\*" -DestinationPath "IPA-Pipeline-GUI-Windows.zip"
+        run: powershell Compress-Archive -Path "dist\IPA_Pipeline_GUI\*" -DestinationPath "IPA-Pipeline-GUI-Windows.zip"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
