@@ -11,6 +11,10 @@ The IPA tool uses MS1 and MS2 data for a bayesian annotation of small molecules.
 
 ## Installation
 
+### App Installation
+
+The easiest way to install the tool is via the link
+
 First the IPA tool and it's dependencies should be installed accoring to https://github.com/francescodc87/ipaPy2/blob/main/README.ipynb
 
 ### 1. Clone the repository
