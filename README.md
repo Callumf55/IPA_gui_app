@@ -13,7 +13,10 @@ The IPA tool uses MS1 and MS2 data for a bayesian annotation of small molecules.
 
 ### App Installation
 
-The easiest way to install the tool is via the link
+The easiest way to install the tool is via the link https://github.com/Callumf55/IPA_gui_app/releases/download/v0.1.6/IPA-Pipeline-GUI-Windows.zip This downloads all the relevent code and dependencies in one zip file with an application that opens the gui allowing for users to run the interface without having to interact with the code.
+
+### Code installation
+If the user wants to install the code and not the application then the following steps show how. However if the app is installed the following steps are not required.
 
 First the IPA tool and it's dependencies should be installed accoring to https://github.com/francescodc87/ipaPy2/blob/main/README.ipynb
 
