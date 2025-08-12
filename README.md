@@ -37,7 +37,7 @@ source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 ```
 
-## Running the App
+## Running the User Interface
 ```bash
 python ipa_gui_advanced.py
 ```
