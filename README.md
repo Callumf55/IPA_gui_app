@@ -11,6 +11,10 @@ The IPA tool uses MS1 and MS2 data for a bayesian annotation of small molecules.
 
 ## Installation
 
+### App Creation
+
+App created using the PyInstaller package. All documentation for this package is available at https://pyinstaller.org/en/stable/
+
 ### App Installation
 
 The easiest way to install the tool is via the link https://github.com/Callumf55/IPA_gui_app/releases/download/v0.1.6/IPA-Pipeline-GUI-Windows.zip This downloads all the relevent code and dependencies in one zip file with an application that opens the gui allowing for users to run the interface without having to interact with the code.
