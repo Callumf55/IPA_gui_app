@@ -152,6 +152,7 @@ class IPAGUI(QMainWindow):
         self.iter_spin = QSpinBox()
         self.iter_spin.setRange(1, 10000)
         self.iter_spin.setValue(100)
+        
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -223,21 +224,24 @@ class IPAGUI(QMainWindow):
         self.advanced_group.setVisible(False)
         advanced_form = QFormLayout()
 
-        def floatbox(default, minv=0, maxv=99999):
+        def floatbox(default, minv=0, maxv=99999, step = 1.0, decimals=10):
             box = QDoubleSpinBox()
             box.setRange(minv, maxv)
+            box.setDecimals(decimals)
+            box.setSingleStep(step)
             box.setValue(default)
             return box
 
-        def intbox(default, minv=0, maxv=10000):
+        def intbox(default, minv=0, maxv=10000, step=1):
             box = QSpinBox()
             box.setRange(minv, maxv)
+            box.setSingleStep(step)
             box.setValue(default)
             return box
 
         # Clustering
-        self.Cthr = floatbox(0.8)
-        self.RTwin = floatbox(1.0)
+        self.Cthr = floatbox(0.8, step = 0.05, decimals=2)
+        self.RTwin = floatbox(1.0, step = 0.1, decimals=2)
         self.Intmode = QComboBox()
         self.Intmode.addItems(["max", "ave"])
         row = QWidget()
@@ -262,7 +266,7 @@ class IPAGUI(QMainWindow):
         advanced_form.addRow("Clustering Intmode:", row)
 
         # Isotope
-        self.isoDiff = floatbox(1.0)
+        self.isoDiff = floatbox(1.0, step=0.1, decimals=2, minv = 0)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -270,7 +274,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#isotope-mass-diff"))
         advanced_form.addRow("Isotope Mass Diff:", row)
 
-        self.MinIsoRatio = floatbox(0.5)
+        self.MinIsoRatio = floatbox(0.5, step=0.01, decimals = 2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -288,7 +292,7 @@ class IPAGUI(QMainWindow):
 
 
         # Annotation
-        self.me = floatbox(5.48579909065e-04)
+        self.me = floatbox(5.48579909065e-04, step=1e-10, minv=0.0, maxv=1.0, decimals=10)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -296,7 +300,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#electron-mass-me"))
         advanced_form.addRow("Electron Mass (me):", row)
 
-        self.ratiosd = floatbox(0.9)
+        self.ratiosd = floatbox(0.9, step = 0.05, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -312,7 +316,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ppmunk"))
         advanced_form.addRow("ppmunk:", row)
 
-        self.ratiounk = floatbox(0.7)
+        self.ratiounk = floatbox(0.7, step = 0.05, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -328,7 +332,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ppmthr"))
         advanced_form.addRow("ppmthr:", row)
 
-        self.pRTNone = floatbox(0.1)
+        self.pRTNone = floatbox(0.1, step = 0.01, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -336,7 +340,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#prtnone"))
         advanced_form.addRow("pRTNone:", row)
 
-        self.pRTout = floatbox(0.1)
+        self.pRTout = floatbox(0.1, step = 0.01, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -346,7 +350,7 @@ class IPAGUI(QMainWindow):
 
 
         # MSMS Annotation Settings
-        self.mzdCS = floatbox(0.0)
+        self.mzdCS = floatbox(0.0, step=0.01, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -362,7 +366,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#ppmcs"))
         advanced_form.addRow("ppmCS:", row)
 
-        self.CSunk = floatbox(0.7)
+        self.CSunk = floatbox(0.7, step=0.05, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -388,7 +392,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#burn-in-iterations"))
         advanced_form.addRow("Burn-in Iterations:", row)
 
-        self.delta_add = floatbox(1.0)
+        self.delta_add = floatbox(1.0, step=0.1, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -396,7 +400,7 @@ class IPAGUI(QMainWindow):
         layout.addWidget(help_link("https://github.com/Callumf55/IPA_GUI/blob/main/README.md#delta-adduct"))
         advanced_form.addRow("Delta (Adduct):", row)
 
-        self.delta_bio = floatbox(1.0)
+        self.delta_bio = floatbox(1.0, step=0.1, decimals=2)
         row = QWidget()
         layout = QHBoxLayout(row)
         layout.setContentsMargins(0, 0, 0, 0)
