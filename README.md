@@ -1,4 +1,4 @@
-# LAMP-IPA
+# IPA GUI
 
 ## Overview
 The IPA GUI is an interactive python based application that aims to improve the useability of the IPA tool allowing biologists and biochemists to use the tool iwhtout having to directly change the code. 
