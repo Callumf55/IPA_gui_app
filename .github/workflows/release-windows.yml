@@ -42,7 +42,7 @@ jobs:
         run: iscc build\setup.iss /DMyAppVersion=${{ steps.tag.outputs.version }}
         shell: pwsh
 
-      # 🚀 New Smoke Test Step
+      # New Smoke Test Step
       - name: Test EXE launch headlessly
         run: |
           Start-Process -FilePath "dist\IPA_Pipeline_GUI\IPA_Pipeline_GUI.exe" -WindowStyle Hidden
@@ -77,3 +77,4 @@ jobs:
           files: |
             IPA-Pipeline-GUI-Windows.zip
             IPA-Pipeline-GUI-Setup.exe
+
