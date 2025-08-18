@@ -22,7 +22,7 @@ The easiest way to install the tool is via the link https://github.com/Callumf55
 ### Code installation
 If the user wants to install the code and not the application then the following steps show how. However if the app is installed the following steps are not required.
 
-First the IPA tool and it's dependencies should be installed accoring to https://github.com/francescodc87/ipaPy2/blob/main/README.ipynb
+First the IPA tool and it's dependencies should be installed accoring to https://github.com/francescodc87/ipaPy2/blob/main/README.md
 
 ### 1. Clone the repository
 ```bash
