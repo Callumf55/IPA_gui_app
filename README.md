@@ -21,7 +21,7 @@ The easiest way to install the tool is via the link https://github.com/Callumf55
 
 ### App Useage
 
-https://youtu.be/bN7ZBsy5sV0 video on the workflow and useage of the application
+https://youtu.be/bN7ZBsy5sV0?si=4FBgKdfN3984SzQ video on the workflow and useage of the application
 
 ### Code installation
 If the user wants to install the code and not the application then the following steps show how. However if the app is installed the following steps are not required.
