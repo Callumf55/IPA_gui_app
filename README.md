@@ -17,7 +17,7 @@ App created using the PyInstaller package. All documentation for this package is
 
 ### App Installation
 
-The easiest way to install the tool is via the link https://github.com/Callumf55/IPA_gui_app/releases/download/v0.1.7/IPA-Pipeline-GUI-Windows.zip This downloads all the relevent code and dependencies in one zip file with an application that opens the gui allowing for users to run the interface without having to interact with the code.
+The easiest way to install the tool is via the link (https://github.com/Callumf55/IPA_gui_app/releases/download/v0.1.9/IPA-Pipeline-GUI-Windows.zip) This downloads all the relevent code and dependencies in one zip file with an application that opens the gui allowing for users to run the interface without having to interact with the code.
 
 ### App Useage
 
