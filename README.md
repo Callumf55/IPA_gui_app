@@ -70,6 +70,7 @@ python ipa_gui_advanced.py
 | Ionisation Mode      | Choose between Positive or Negative ionisation                     |
 | Gibbs Iterations     | Number of sampling steps for the Gibbs sampler ([?](https://github.com/Callumf55/IPA_GUI/blob/main/README.md#gibbs-sampler-iterations)) |
 | Gibbs Sampler Type   | Options: adduct, biochemical, or both                              |
+| CPU Cores            | Allows for parallelisation                                         |
 
 ## Advanced Settings
 
