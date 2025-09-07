@@ -13,7 +13,7 @@ def run_ipa_pipeline(
     ppm=10,
     run_clustering=True,
     run_gibbs=False,
-    gibbs_iterations=1000,
+    gibbs_iterations=100,
     gibbs_version="adduct",
     Bio=None,
     export_format="csv",
@@ -222,3 +222,4 @@ def export_summary_table(res: pd.DataFrame, output_path: str, export_format: str
         res.to_excel(output_path, index=False)
     else:
         raise ValueError(f"Unsupported export format: {export_format}")
+
