@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QThread, Signal, QObject
 
-from ipa_run_pipeline_ad_2 import run_ipa_pipeline
+from ipa_run_pipeline_ad import run_ipa_pipeline
 
 
 class EmittingStream(QObject):
@@ -551,3 +551,4 @@ if __name__ == "__main__":
     window = IPAGUI()
     window.show()
     sys.exit(app.exec())
+
